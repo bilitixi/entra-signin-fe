@@ -14,8 +14,15 @@ export async function apiFetch(path, options = {}) {
   });
 
   if (res.status === 401) {
-    window.location.href = `${BASE_URL}/auth/login`;
-    return; // navigation is happening; nothing more to do
+    // Don't auto-redirect back into Entra if we just landed here *because*
+    // a sign-in attempt was rejected (?auth_error=...) — that would bounce
+    // the user straight into another failed attempt instead of letting
+    // them see why it failed. See src/pages/Home.jsx.
+    const justFailed = new URLSearchParams(window.location.search).has("auth_error");
+    if (!justFailed) {
+      window.location.href = `${BASE_URL}/auth/login`;
+      return; // navigation is happening; nothing more to do
+    }
   }
   return res;
 }
