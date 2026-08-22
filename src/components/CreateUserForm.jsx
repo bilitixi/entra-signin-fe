@@ -87,13 +87,20 @@ export default function CreateUserForm({ onCreated }) {
           <p>
             Created {status.user.email} ({status.user.role}).
           </p>
-          {status.user.temp_password && (
+          {status.user.invite_email_sent && (
             <p>
-              <strong>Temp password (shown once — send it to them now):</strong>{" "}
-              <code>{status.user.temp_password}</code>
+              Account-setup email sent to {status.user.email}. They'll be
+              required to set their own password the moment they click
+              "Sign in".
+            </p>
+          )}
+          {status.user.temp_password && (
+            <p role="alert">
+              Couldn't email the invitation
+              {status.user.email_error ? ` (${status.user.email_error})` : ""}.
               <br />
-              They'll be required to set their own password the moment they
-              click "Sign in".
+              <strong>Send this temp password to them yourself (shown once):</strong>{" "}
+              <code>{status.user.temp_password}</code>
             </p>
           )}
         </div>
