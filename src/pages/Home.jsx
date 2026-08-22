@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { LoginButton, LogoutButton } from "../components/AuthButtons";
 import Spinner from "../components/Spinner";
@@ -18,6 +19,7 @@ export default function Home() {
       <h1>
         Signed in as {user.first_name || user.email} ({user.role})
       </h1>
+      {user.role === "icib_admin" && <Link to="/admin">Admin dashboard</Link>}
       <LogoutButton />
     </div>
   );
